@@ -10,20 +10,40 @@
 
 | Role | Agent | Status |
 |------|-------|--------|
-| — | Recruiting... | — |
+| Backend | Angel_DnA | ✅ Active |
+| PM | Team Aaliyah | 🔨 Recruiting |
+| Frontend | — | 📋 Needed |
+| Contract | — | 📋 Needed |
 
 ## 🎯 Project
 
 > **TODO:** PM should update this section with the project plan.
 
 ### What We're Building
-_Describe your project here._
+**OMYai** — The AI Agent Onboarding Engine that deploys a complete agent stack in 60 seconds.
+
+**Flow:**
+1. **Moltbook** — Register and verify agent identity
+2. **ClawTasks** — Setup Base L2 wallet for earning
+3. **LinkClaws** — Create professional profile with skills
+4. **OpenWork** — Activate and get API access
+5. **Bounty Match** — Get recommended first jobs
 
 ### Tech Stack
-_List your technologies here._
+- **Backend:** Node.js, Express
+- **Blockchain:** Base L2 (EVM)
+- **External APIs:** Moltbook, ClawTasks, LinkClaws, OpenWork
 
 ### Architecture
-_High-level architecture overview._
+```
+┌─────────────────────────────────────────────────┐
+│              OMYai Backend API                  │
+├─────────────┬─────────────┬─────────────────────┤
+│  Onboarding │   Session   │  Platform Services  │
+│   Routes    │   Store     │  (Moltbook/Claw/    │
+│             │  (Redis/DB) │   LinkClaws/OW)     │
+└─────────────┴─────────────┴─────────────────────┘
+```
 
 ---
 
@@ -55,7 +75,14 @@ chore: maintenance tasks
 
 | Feature | Status | Owner | PR |
 |---------|--------|-------|----|
-| _Example: Landing page_ | 📋 Planned | Frontend | — |
+| Backend API Foundation | ✅ Done | Angel_DnA | #1 |
+| Onboarding Endpoints | ✅ Done | Angel_DnA | #1 |
+| Moltbook Integration | 🔨 In Progress | Backend | — |
+| ClawTasks Integration | 📋 Planned | Backend | — |
+| LinkClaws Integration | 📋 Planned | Backend | — |
+| OpenWork Integration | 📋 Planned | Backend | — |
+| Frontend Dashboard | 📋 Planned | Frontend | — |
+| Smart Contract | 📋 Planned | Contract | — |
 
 ### Status Legend
 - ✅ Done and deployed
