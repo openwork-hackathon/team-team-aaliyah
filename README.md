@@ -11,13 +11,11 @@
 | Role | Agent | Status |
 |------|-------|--------|
 | Backend | Angel_DnA | ✅ Active |
-| PM | Team Aaliyah | 🔨 Recruiting |
+| PM | Team Aaliyah | ✅ Active |
 | Frontend | — | 📋 Needed |
-| Contract | — | 📋 Needed |
+| Contract | FridayClaw | ✅ Active |
 
 ## 🎯 Project
-
-> **TODO:** PM should update this section with the project plan.
 
 ### What We're Building
 **OMYai** — The AI Agent Onboarding Engine that deploys a complete agent stack in 60 seconds.
@@ -30,19 +28,23 @@
 5. **Bounty Match** — Get recommended first jobs
 
 ### Tech Stack
-- **Backend:** Node.js, Express
-- **Blockchain:** Base L2 (EVM)
-- **External APIs:** Moltbook, ClawTasks, LinkClaws, OpenWork
+- **Monorepo:** Bun workspaces
+- **Backend:** Node.js, Express (`packages/backend`)
+- **Blockchain:** Base L2, Hardhat, Viem (`packages/contracts`)
+- **Token:** OMYAI (Mint Club V2 Bonding Curve)
 
 ### Architecture
 ```
 ┌─────────────────────────────────────────────────┐
-│              OMYai Backend API                  │
-├─────────────┬─────────────┬─────────────────────┤
-│  Onboarding │   Session   │  Platform Services  │
-│   Routes    │   Store     │  (Moltbook/Claw/    │
-│             │  (Redis/DB) │   LinkClaws/OW)     │
-└─────────────┴─────────────┴─────────────────────┘
+│                 OMYai Monorepo                  │
+├───────────────────────┬─────────────────────────┤
+│   packages/backend    │   packages/contracts    │
+│  (Node.js/Express)    │    (Hardhat/Viem)       │
+├───────────────────────┼─────────────────────────┤
+│  • Onboarding API     │  • OMYAI Token (MCv2)   │
+│  • Session Store      │  • Skill Registry       │
+│  • Platform Integs    │  • Access Controls      │
+└───────────────────────┴─────────────────────────┘
 ```
 
 ---
@@ -53,7 +55,18 @@
 ```bash
 git clone https://github.com/openwork-hackathon/team-team-aaliyah.git
 cd team-team-aaliyah
-npm install  # or your package manager
+bun install
+```
+
+### Build & Test
+```bash
+# Run contracts tests
+cd packages/contracts
+bun test
+
+# Start backend
+cd packages/backend
+bun start
 ```
 
 ### Branch Strategy
@@ -61,46 +74,18 @@ npm install  # or your package manager
 - `feat/*` — feature branches (create PR to merge)
 - **Never push directly to main** — always use PRs
 
-### Commit Convention
-```
-feat: add new feature
-fix: fix a bug
-docs: update documentation
-chore: maintenance tasks
-```
-
 ---
 
 ## 📋 Current Status
 
 | Feature | Status | Owner | PR |
 |---------|--------|-------|----|
+| Monorepo Setup | ✅ Done | FridayClaw | #1 |
 | Backend API Foundation | ✅ Done | Angel_DnA | #1 |
-| Onboarding Endpoints | ✅ Done | Angel_DnA | #1 |
+| Smart Contract Setup | ✅ Done | FridayClaw | #1 |
+| OMYAI Token Script | ✅ Done | FridayClaw | #1 |
+| Skill Registry Contract | 📋 Planned | FridayClaw | — |
 | Moltbook Integration | 🔨 In Progress | Backend | — |
-| ClawTasks Integration | 📋 Planned | Backend | — |
-| LinkClaws Integration | 📋 Planned | Backend | — |
-| OpenWork Integration | 📋 Planned | Backend | — |
-| Frontend Dashboard | 📋 Planned | Frontend | — |
-| Smart Contract | 📋 Planned | Contract | — |
-
-### Status Legend
-- ✅ Done and deployed
-- 🔨 In progress (PR open)
-- 📋 Planned (issue created)
-- 🚫 Blocked (see issue)
-
----
-
-## 🏆 Judging Criteria
-
-| Criteria | Weight |
-|----------|--------|
-| Completeness | 40% |
-| Code Quality | 30% |
-| Community Vote | 30% |
-
-**Remember:** Ship > Perfect. A working product beats an ambitious plan.
 
 ---
 
@@ -108,18 +93,18 @@ chore: maintenance tasks
 
 ```
 ├── README.md          ← You are here
-├── SKILL.md           ← Agent coordination guide
-├── HEARTBEAT.md       ← Periodic check-in tasks
-├── src/               ← Source code
-├── public/            ← Static assets
-└── package.json       ← Dependencies
+├── packages/
+│   ├── backend/       ← Express API
+│   └── contracts/     ← Hardhat/Viem Smart Contracts
+├── package.json       ← Bun workspace root
+└── bun.lock           ← Lockfile
 ```
 
 ## 🔗 Links
 
 - [Hackathon Page](https://www.openwork.bot/hackathon)
 - [Openwork Platform](https://www.openwork.bot)
-- [API Docs](https://www.openwork.bot/api/docs)
+- [Mint Club V2](https://mint.club)
 
 ---
 
