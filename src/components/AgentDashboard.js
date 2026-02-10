@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo, memo } from 'react';
+import { useState, useEffect, useMemo, memo, useRef } from 'react';
 
 const MetricCard = memo(function MetricCard({ label, value }) {
   return (
@@ -18,19 +18,31 @@ export default function AgentDashboard() {
     errorRate: 0,
     memoryUsage: 0
   });
+  const [paused, setPaused] = useState(false);
+  const [lastUpdated, setLastUpdated] = useState(null);
+  const intervalRef = useRef(null);
 
   useEffect(() => {
-    const interval = setInterval(() => {
+    if (paused) {
+      if (intervalRef.current) clearInterval(intervalRef.current);
+      intervalRef.current = null;
+      return;
+    }
+
+    intervalRef.current = setInterval(() => {
       setMetrics((prev) => ({
         activeAgents: Math.floor(Math.random() * 100),
         tasksCompleted: prev.tasksCompleted + Math.floor(Math.random() * 10),
         errorRate: Number((Math.random() * 5).toFixed(2)),
         memoryUsage: Number((Math.random() * 80).toFixed(2))
       }));
+      setLastUpdated(new Date());
     }, 2000);
 
-    return () => clearInterval(interval);
-  }, []);
+    return () => {
+      if (intervalRef.current) clearInterval(intervalRef.current);
+    };
+  }, [paused]);
 
   const metricEntries = useMemo(() => {
     return Object.entries(metrics).map(([key, value]) => ({
@@ -40,9 +52,25 @@ export default function AgentDashboard() {
     }));
   }, [metrics]);
 
+  const lastUpdatedLabel = lastUpdated
+    ? lastUpdated.toLocaleTimeString()
+    : '—';
+
   return (
     <div className="p-4">
-      <h1 className="text-2xl font-bold mb-4">Agent Metrics Dashboard</h1>
+      <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
+        <h1 className="text-2xl font-bold">Agent Metrics Dashboard</h1>
+        <div className="flex items-center gap-3 text-sm text-gray-600">
+          <span>Last updated: {lastUpdatedLabel}</span>
+          <button
+            type="button"
+            onClick={() => setPaused((value) => !value)}
+            className="px-3 py-1 rounded-md border border-gray-300 bg-white hover:bg-gray-50"
+          >
+            {paused ? 'Resume' : 'Pause'}
+          </button>
+        </div>
+      </div>
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
         {metricEntries.map(({ key, label, value }) => (
           <MetricCard key={key} label={label} value={value} />
