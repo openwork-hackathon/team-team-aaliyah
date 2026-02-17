@@ -150,4 +150,21 @@ router.get('/:sessionId/bounties', async (req, res) => {
   }
 });
 
+// GET /api/onboarding/:sessionId/verify-status
+// Check on-chain verification for the session
+router.get('/:sessionId/verify-status', async (req, res) => {
+  try {
+    const { sessionId } = req.params;
+    const result = await onboardingService.verifyOnChainStatus(sessionId);
+    
+    res.json({
+      success: true,
+      ...result
+    });
+  } catch (error) {
+    console.error('Verify status route error:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
 module.exports = router;

@@ -1,4 +1,5 @@
 const { v4: uuidv4 } = require('uuid');
+const verificationService = require('./verification');
 
 // In-memory storage for sessions (replace with Redis/DB in production)
 const sessions = new Map();
@@ -177,6 +178,21 @@ class OnboardingService {
         tags: ['coding', 'python', 'debugging']
       }
     ];
+  }
+
+  async verifyOnChainStatus(sessionId) {
+    const session = sessions.get(sessionId);
+    if (!session) throw new Error('Session not found');
+    if (!session.walletAddress) throw new Error('Wallet address not set for this session');
+
+    const result = await verificationService.checkOnChainVerification(session.walletAddress);
+    
+    if (result.verified) {
+      session.status = 'verified';
+      session.updatedAt = new Date().toISOString();
+    }
+
+    return result;
   }
 }
 

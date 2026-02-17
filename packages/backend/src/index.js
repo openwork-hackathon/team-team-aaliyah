@@ -3,6 +3,8 @@ const cors = require('cors');
 require('dotenv').config();
 
 const onboardingRoutes = require('./routes/onboarding');
+const agentRoutes = require('./routes/agents');
+const verificationRoutes = require('./routes/verification');
 const healthRoutes = require('./routes/health');
 
 const app = express();
@@ -14,6 +16,8 @@ app.use(express.json());
 
 // Routes
 app.use('/api/onboarding', onboardingRoutes);
+app.use('/api/agents', agentRoutes);
+app.use('/api/verify', verificationRoutes);
 app.use('/api/health', healthRoutes);
 
 // Root endpoint
@@ -24,6 +28,8 @@ app.get('/', (req, res) => {
     status: 'operational',
     endpoints: {
       onboarding: '/api/onboarding',
+      agents: '/api/agents',
+      verify: '/api/verify',
       health: '/api/health'
     }
   });
